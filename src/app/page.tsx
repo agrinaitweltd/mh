@@ -325,9 +325,9 @@ export default function Home() {
           <div className="contact-copy">
             <h2>REACH <em>OUT</em></h2>
             <div className="copy-rule" aria-hidden="true" />
-            <p>If you have a question, some feedback, or you&apos;d like a quote for your vehicle, we&apos;d love to hear from you.</p>
-            <p>Complete the contact form and we&apos;ll get back to you as soon as we can. Response times can vary depending on current schedule &mdash; during peak periods, lead times might be anywhere from one to three weeks.</p>
-            <p>Feel free to attach photos of your car &mdash; the more details you can provide in your message, the better.</p>
+            <p>If you have a personal inquiry, partnership idea, or general feedback, we&apos;d love to hear from you.</p>
+            <p>This form is for non-booking messages only. For service bookings, please use the dedicated Book Now page.</p>
+            <p>Share as much detail as you&apos;d like and we&apos;ll reply as soon as possible.</p>
             <p>Looking forward to hearing from you!</p>
           </div>
           <div className="contact-form-outer">
@@ -339,22 +339,25 @@ export default function Home() {
                 <label>Email<input type="email" name="email" required /></label>
                 <label>Phone<input type="tel" name="phone" /></label>
               </div>
-              <label>Vehicle Make &amp; Model<input type="text" name="vehicle" /></label>
-              <label>Vehicle Year, Mileage, and Colour<input type="text" name="vehicle_detail" /></label>
-              <label>City / Postcode<input type="text" name="postcode" /></label>
-              <div className="form-field-group">
-                <p className="form-group-label">Services Required</p>
-                <div className="form-checkboxes">
-                  {["Full Detail", "Mini Valet", "Full Interior", "Full Exterior"].map((svc) => (
-                    <label key={svc} className="form-check-label">
-                      <input type="checkbox" name="services" value={svc} className="form-check-input" />
-                      <span>{svc}</span>
-                    </label>
-                  ))}
-                </div>
+              <div className="form-row">
+                <label>Subject<input type="text" name="subject" required /></label>
+                <label>Inquiry Type
+                  <select name="inquiry_type" defaultValue="General Question">
+                    {["General Question", "Partnership", "Feedback", "Support", "Other"].map((type) => (
+                      <option key={type} value={type}>{type}</option>
+                    ))}
+                  </select>
+                </label>
               </div>
-              <label>Photos (Optional, Max. 5)<input type="file" name="photos" multiple accept="image/*" className="form-file" /></label>
-              <label>Message<textarea name="message" rows={4} /></label>
+              <label>Preferred Reply Method
+                <select name="reply_method" defaultValue="Email">
+                  <option value="Email">Email</option>
+                  <option value="Phone">Phone</option>
+                  <option value="Either">Either</option>
+                </select>
+              </label>
+              <label>Reference File (Optional)<input type="file" name="attachment" accept="image/*,.pdf,.doc,.docx" className="form-file" /></label>
+              <label>Message<textarea name="message" rows={5} placeholder="Tell us how we can help..." required /></label>
               <button type="submit" className="btn-send-rust form-submit">SEND →</button>
             </form>
           </div>

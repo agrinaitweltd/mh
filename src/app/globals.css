@@ -608,7 +608,7 @@ button, input, textarea, select { font-family: inherit; }
   background:
     linear-gradient(45deg, rgba(255,255,255,0.045) 1px, transparent 1px) 0 0 / 58px 58px,
     linear-gradient(-45deg, rgba(255,255,255,0.045) 1px, transparent 1px) 0 0 / 58px 58px,
-    linear-gradient(110deg, rgba(2, 5, 12, 0.93) 0%, rgba(4, 10, 22, 0.78) 55%, rgba(5, 10, 21, 0.9) 100%),
+    linear-gradient(110deg, rgba(2, 5, 12, 0.86) 0%, rgba(4, 10, 22, 0.68) 55%, rgba(5, 10, 21, 0.82) 100%),
     radial-gradient(circle at 75% 18%, rgba(97, 221, 217, 0.1), transparent 42%);
 }
 .hero-deco-shape {
@@ -1476,7 +1476,6 @@ button, input, textarea, select { font-family: inherit; }
 }
 
 /* Contact items */
-.footer-contact-col .footer-col { }
 .footer-contact-item {
   display: flex !important;
   align-items: flex-start;
@@ -1881,6 +1880,18 @@ button, input, textarea, select { font-family: inherit; }
   from { opacity: 0; transform: translateX(24px); }
   to { opacity: 1; transform: translateX(0); }
 }
+@keyframes mobileFloatIn {
+  from { opacity: 0; transform: translateY(16px) scale(0.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes mobileSoftPulse {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-3px); }
+}
+@keyframes mobileGlowSweep {
+  0% { background-position: -120% 0; }
+  100% { background-position: 120% 0; }
+}
 @keyframes cookieSlideUp {
   from { opacity: 0; transform: translateY(100%); }
   to { opacity: 1; transform: translateY(0); }
@@ -1978,6 +1989,60 @@ button, input, textarea, select { font-family: inherit; }
   .cookie-bar-actions { width: 100%; }
   .cookie-btn { flex: 1; text-align: center; padding: 0.75rem; }
 }
+
+  /* Mobile animation upgrades */
+  .hero-content,
+  .trust-card,
+  .svc-card,
+  .process-card,
+  .gallery-item,
+  .testi-card,
+  .faq-card,
+  .contact-form,
+  .footer-col {
+    animation: mobileFloatIn 0.6s cubic-bezier(.16,1,.3,1) both;
+  }
+
+  .trust-card:nth-child(1),
+  .svc-card:nth-child(1),
+  .process-card:nth-child(1),
+  .gallery-item:nth-child(1),
+  .faq-card:nth-child(1) { animation-delay: 40ms; }
+  .trust-card:nth-child(2),
+  .svc-card:nth-child(2),
+  .process-card:nth-child(2),
+  .gallery-item:nth-child(2),
+  .faq-card:nth-child(2) { animation-delay: 120ms; }
+  .trust-card:nth-child(3),
+  .svc-card:nth-child(3),
+  .process-card:nth-child(3),
+  .gallery-item:nth-child(3),
+  .faq-card:nth-child(3) { animation-delay: 200ms; }
+  .trust-card:nth-child(4),
+  .svc-card:nth-child(4),
+  .process-card:nth-child(4),
+  .gallery-item:nth-child(4) { animation-delay: 280ms; }
+
+  .hero-deco-shape { animation: floatSlow 6s ease-in-out infinite, mobileSoftPulse 3s ease-in-out infinite; }
+
+  .btn-cta-rust,
+  .btn-send-rust,
+  .booking-submit,
+  .drawer-book-cta {
+    background-size: 200% 100%;
+    animation: mobileGlowSweep 3.2s linear infinite;
+  }
+
+  .mob-icon-btn,
+  .footer-social-btn,
+  .drawer-contact-chip {
+    transition: transform 0.24s cubic-bezier(.16,1,.3,1), background 0.24s ease, border-color 0.24s ease;
+  }
+  .mob-icon-btn:active,
+  .footer-social-btn:active,
+  .drawer-contact-chip:active {
+    transform: scale(0.96);
+  }
 
 /* ─── Very small phones (≤480px) ─── */
 @media (max-width: 480px) {
@@ -2909,6 +2974,10 @@ button, input, textarea, select { font-family: inherit; }
   from { opacity: 0; transform: scale(0.85) translateY(12px); }
   to { opacity: 1; transform: scale(1) translateY(0); }
 }
+@keyframes loadingLogoSpin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
 @keyframes loadingBarFill {
   from { width: 0; }
   to { width: 100%; }
@@ -2944,6 +3013,8 @@ button, input, textarea, select { font-family: inherit; }
   width: auto;
   object-fit: contain;
   filter: brightness(1.1);
+  transform-origin: center;
+  animation: loadingLogoSpin 2.6s linear infinite;
 }
 .loading-bar-track {
   width: 160px;
