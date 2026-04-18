@@ -223,7 +223,15 @@ export default function Home() {
           </div>
           <div className="svc-grid">
             {SERVICES.map((service) => (
-              <div key={service.id} className={`svc-card${service.tag ? " svc-card--gold" : ""}`}>
+              <div
+                key={service.id}
+                className={`svc-card${service.tag ? " svc-card--gold" : ""}`}
+                style={{
+                  backgroundImage: `linear-gradient(160deg, rgba(7, 12, 24, 0.9), rgba(7, 12, 24, 0.78)), url(${service.bg})`,
+                  backgroundSize: "cover",
+                  backgroundPosition: "center",
+                }}
+              >
                 <p className="svc-card-cat">{service.category}</p>
                 <h3 className="svc-card-name"><em>{service.label}</em></h3>
                 <div className="svc-car-icon" aria-hidden="true">
