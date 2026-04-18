@@ -3151,3 +3151,91 @@ button, input, textarea, select { font-family: inherit; }
 
 /* Hide old cookie bar styles in case of leftover markup */
 .cookie-bar { display: none !important; }
+
+/* ═══════════════════════════════════════════════════
+   ANIMATION PASS 2 — FOOTER & INTERACTIONS
+═══════════════════════════════════════════════════ */
+@keyframes footerRiseIn {
+  from { opacity: 0; transform: translateY(26px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes footerCreditGlow {
+  0%, 100% { opacity: 0.82; text-shadow: 0 0 0 rgba(97, 221, 217, 0); }
+  50% { opacity: 1; text-shadow: 0 0 18px rgba(97, 221, 217, 0.25); }
+}
+@keyframes gentleBob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-2px); }
+}
+
+.footer-col {
+  animation: footerRiseIn 0.7s cubic-bezier(.16,1,.3,1) both;
+}
+.footer-col:nth-child(1) { animation-delay: 60ms; }
+.footer-col:nth-child(2) { animation-delay: 150ms; }
+.footer-col:nth-child(3) { animation-delay: 240ms; }
+
+.footer-touch-value,
+.footer-services-list a,
+.footer-copyright a {
+  position: relative;
+}
+.footer-touch-value::after,
+.footer-services-list a::after,
+.footer-copyright a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 100%;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.25s ease;
+}
+.footer-touch-value:hover::after,
+.footer-services-list a:hover::after,
+.footer-copyright a:hover::after {
+  transform: scaleX(1);
+}
+
+.footer-social-btn {
+  animation: gentleBob 3.2s ease-in-out infinite;
+}
+.footer-social-btn:nth-child(2) {
+  animation-delay: 180ms;
+}
+.footer-social-btn svg {
+  transition: transform 0.25s ease;
+}
+.footer-social-btn:hover svg {
+  transform: scale(1.08) rotate(4deg);
+}
+
+.footer-credit {
+  margin-top: 0.65rem;
+  color: rgba(220, 235, 255, 0.72);
+  font-size: 0.74rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  animation: footerCreditGlow 2.8s ease-in-out infinite;
+}
+
+@media (max-width: 768px) {
+  .footer-col {
+    animation-duration: 0.58s;
+  }
+  .footer-credit {
+    font-size: 0.69rem;
+    letter-spacing: 0.1em;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .footer-col,
+  .footer-social-btn,
+  .footer-credit {
+    animation: none !important;
+  }
+}

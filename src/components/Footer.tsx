@@ -12,11 +12,7 @@ export default function Footer() {
           <p className="footer-heading">Get In Touch</p>
           <ul className="footer-touch-list">
             <li className="footer-touch-inline">
-              <span className="footer-touch-label">Landline</span>
-              <a href="tel:07440771820" className="footer-touch-value">07440 771820</a>
-            </li>
-            <li className="footer-touch-inline">
-              <span className="footer-touch-label">Mobile</span>
+              <span className="footer-touch-label">Phone</span>
               <a href="tel:07440771820" className="footer-touch-value">07440 771820</a>
             </li>
             <li className="footer-touch-spacer" />
@@ -57,6 +53,7 @@ export default function Footer() {
             &copy; {new Date().getFullYear()} M.H Detailz All Rights Reserved |{" "}
             <Link href="/">Privacy</Link> | <a href="https://mhdetailz.co.uk">Website</a>
           </p>
+          <p className="footer-credit">Made &amp; Designed By Kavo Technologies</p>
         </div>
 
       </div>
