@@ -53,7 +53,7 @@ export default function Footer() {
             &copy; {new Date().getFullYear()} M.H Detailz All Rights Reserved |{" "}
             <Link href="/">Privacy</Link> | <a href="https://mhdetailz.co.uk">Website</a>
           </p>
-          <p className="footer-credit">Made &amp; Designed By Kavo Technologies</p>
+          <p className="footer-credit">Made &amp; Designed By Kavo Technologies <a href="https://kavotech.uk" target="_blank" rel="noopener noreferrer">Kavo Technologies</a></p>
         </div>
 
       </div>
