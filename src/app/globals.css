@@ -3239,3 +3239,304 @@ button, input, textarea, select { font-family: inherit; }
     animation: none !important;
   }
 }
+
+
+/* ═══════════════════════════════════════════════════
+   ANIMATION PASS 3 — SECTIONAL SCROLL CHOREOGRAPHY
+═══════════════════════════════════════════════════ */
+
+/* ─── Shared keyframes ─── */
+@keyframes fadeInLeft3 {
+  from { opacity: 0; transform: translateX(-40px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes fadeInRight3 {
+  from { opacity: 0; transform: translateX(40px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes fadeUpItem {
+  from { opacity: 0; transform: translateY(28px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes scaleIn3 {
+  from { opacity: 0; transform: scale(0.88); }
+  to   { opacity: 1; transform: scale(1); }
+}
+@keyframes ruleExpand {
+  from { transform: scaleX(0); }
+  to   { transform: scaleX(1); }
+}
+@keyframes eyebrowSlideIn {
+  from { opacity: 0; letter-spacing: 0.4em; transform: translateY(10px); }
+  to   { opacity: 1; letter-spacing: 0.22em; transform: translateY(0); }
+}
+@keyframes headingReveal {
+  from { opacity: 0; transform: translateY(20px) skewY(1.5deg); }
+  to   { opacity: 1; transform: translateY(0) skewY(0deg); }
+}
+@keyframes captionFadeUp {
+  from { opacity: 0; transform: translateY(100%); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ─── Section heading entrances (triggered by parent .in-view) ─── */
+.scroll-reveal .section-head .eyebrow,
+.scroll-reveal.in-view .section-head .eyebrow {
+  animation: eyebrowSlideIn 0.7s cubic-bezier(.16,1,.3,1) 80ms both;
+}
+.scroll-reveal .section-head h2,
+.scroll-reveal.in-view .section-head h2 {
+  animation: headingReveal 0.8s cubic-bezier(.16,1,.3,1) 200ms both;
+}
+.scroll-reveal .section-head .section-rule,
+.scroll-reveal.in-view .section-head .section-rule {
+  transform-origin: left;
+  animation: ruleExpand 0.6s cubic-bezier(.16,1,.3,1) 380ms both;
+}
+
+/* Fire section-head animations only when parent is in-view */
+.section-head .eyebrow,
+.section-head h2,
+.section-head .section-rule {
+  animation: none;
+}
+.in-view .section-head .eyebrow {
+  animation: eyebrowSlideIn 0.7s cubic-bezier(.16,1,.3,1) 80ms both;
+}
+.in-view .section-head h2 {
+  animation: headingReveal 0.8s cubic-bezier(.16,1,.3,1) 200ms both;
+}
+.in-view .section-head .section-rule {
+  transform-origin: left;
+  animation: ruleExpand 0.6s cubic-bezier(.16,1,.3,1) 380ms both;
+}
+
+/* ─── About section ─── */
+.about.in-view .about-copy {
+  animation: fadeInLeft3 0.85s cubic-bezier(.16,1,.3,1) 120ms both;
+}
+.about.in-view .about-image-wrap {
+  animation: fadeInRight3 0.85s cubic-bezier(.16,1,.3,1) 200ms both;
+}
+.about.in-view .about-list li:nth-child(1) {
+  animation: fadeUpItem 0.65s cubic-bezier(.16,1,.3,1) 300ms both;
+}
+.about.in-view .about-list li:nth-child(2) {
+  animation: fadeUpItem 0.65s cubic-bezier(.16,1,.3,1) 420ms both;
+}
+.about.in-view .about-list li:nth-child(3) {
+  animation: fadeUpItem 0.65s cubic-bezier(.16,1,.3,1) 540ms both;
+}
+.about-copy, .about-image-wrap, .about-list li {
+  will-change: transform, opacity;
+}
+.about-image-wrap {
+  overflow: hidden;
+}
+.about-img {
+  transition: transform 0.6s cubic-bezier(.2,.8,.3,1);
+}
+.about-image-wrap:hover .about-img {
+  transform: scale(1.035);
+}
+
+/* ─── Services cards ─── */
+.services-grid-section.in-view .svc-card:nth-child(1)  { animation: fadeUpItem 0.6s cubic-bezier(.16,1,.3,1) 100ms both; }
+.services-grid-section.in-view .svc-card:nth-child(2)  { animation: fadeUpItem 0.6s cubic-bezier(.16,1,.3,1) 170ms both; }
+.services-grid-section.in-view .svc-card:nth-child(3)  { animation: fadeUpItem 0.6s cubic-bezier(.16,1,.3,1) 240ms both; }
+.services-grid-section.in-view .svc-card:nth-child(4)  { animation: fadeUpItem 0.6s cubic-bezier(.16,1,.3,1) 310ms both; }
+.services-grid-section.in-view .svc-card:nth-child(5)  { animation: fadeUpItem 0.6s cubic-bezier(.16,1,.3,1) 380ms both; }
+.services-grid-section.in-view .svc-card:nth-child(6)  { animation: fadeUpItem 0.6s cubic-bezier(.16,1,.3,1) 450ms both; }
+.services-grid-section.in-view .svc-card:nth-child(7)  { animation: fadeUpItem 0.6s cubic-bezier(.16,1,.3,1) 520ms both; }
+.services-grid-section.in-view .svc-card:nth-child(8)  { animation: fadeUpItem 0.6s cubic-bezier(.16,1,.3,1) 590ms both; }
+.svc-card { will-change: transform, opacity; }
+
+/* ─── Services grid header ─── */
+.services-grid-section.in-view .services-grid-header {
+  animation: fadeUpItem 0.7s cubic-bezier(.16,1,.3,1) 60ms both;
+}
+
+/* ─── Process cards — enhanced ─── */
+.process-home.in-view .process-card:nth-child(1) { animation: fadeUpItem 0.6s cubic-bezier(.16,1,.3,1) 100ms both; }
+.process-home.in-view .process-card:nth-child(2) { animation: fadeUpItem 0.6s cubic-bezier(.16,1,.3,1) 200ms both; }
+.process-home.in-view .process-card:nth-child(3) { animation: fadeUpItem 0.6s cubic-bezier(.16,1,.3,1) 300ms both; }
+.process-home.in-view .process-card:nth-child(4) { animation: fadeUpItem 0.6s cubic-bezier(.16,1,.3,1) 400ms both; }
+.process-home.in-view .process-card:nth-child(5) { animation: fadeUpItem 0.6s cubic-bezier(.16,1,.3,1) 500ms both; }
+.process-card { will-change: transform, opacity; }
+
+/* ─── Gallery items ─── */
+.gallery.in-view .gallery-item:nth-child(1) { animation: scaleIn3 0.6s cubic-bezier(.16,1,.3,1) 80ms both; }
+.gallery.in-view .gallery-item:nth-child(2) { animation: scaleIn3 0.6s cubic-bezier(.16,1,.3,1) 160ms both; }
+.gallery.in-view .gallery-item:nth-child(3) { animation: scaleIn3 0.6s cubic-bezier(.16,1,.3,1) 240ms both; }
+.gallery.in-view .gallery-item:nth-child(4) { animation: scaleIn3 0.6s cubic-bezier(.16,1,.3,1) 320ms both; }
+.gallery.in-view .gallery-item:nth-child(5) { animation: scaleIn3 0.6s cubic-bezier(.16,1,.3,1) 400ms both; }
+.gallery.in-view .gallery-item:nth-child(6) { animation: scaleIn3 0.6s cubic-bezier(.16,1,.3,1) 480ms both; }
+.gallery-item { will-change: transform, opacity; overflow: hidden; }
+
+/* Gallery image zoom on hover */
+.gallery-item img {
+  transition: transform 0.55s cubic-bezier(.2,.8,.3,1);
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.gallery-item:hover img {
+  transform: scale(1.07);
+}
+
+/* Gallery caption slide up on hover */
+.gallery-item figcaption {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 0.75rem 1rem;
+  background: linear-gradient(to top, rgba(4,7,13,0.88) 0%, transparent 100%);
+  color: #fff;
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  transform: translateY(100%);
+  transition: transform 0.35s cubic-bezier(.2,.8,.3,1);
+}
+.gallery-item:hover figcaption {
+  transform: translateY(0);
+}
+.gallery-item { position: relative; }
+
+/* ─── Testimonials ─── */
+.testimonials.in-view .testi-card {
+  animation: fadeUpItem 0.65s cubic-bezier(.16,1,.3,1) both;
+}
+.testi-card { will-change: transform, opacity; }
+.testi-card:hover {
+  transform: translateY(-5px) scale(1.02);
+  box-shadow: 0 12px 40px rgba(97, 221, 217, 0.1);
+  transition: transform 0.3s cubic-bezier(.2,.8,.3,1), box-shadow 0.3s ease;
+}
+
+/* ─── Contact section ─── */
+.contact-section.in-view .contact-copy {
+  animation: fadeInLeft3 0.8s cubic-bezier(.16,1,.3,1) 120ms both;
+}
+.contact-section.in-view .contact-form-outer {
+  animation: fadeInRight3 0.8s cubic-bezier(.16,1,.3,1) 240ms both;
+}
+.contact-copy, .contact-form-outer { will-change: transform, opacity; }
+
+/* ─── Trust strip cards ─── */
+.trust-card {
+  animation: fadeUpItem 0.65s cubic-bezier(.16,1,.3,1) both;
+}
+.trust-card:nth-child(1) { animation-delay: 60ms; }
+.trust-card:nth-child(2) { animation-delay: 140ms; }
+.trust-card:nth-child(3) { animation-delay: 220ms; }
+.trust-card:nth-child(4) { animation-delay: 300ms; }
+.trust-card:hover {
+  transform: translateY(-4px) scale(1.03);
+  transition: transform 0.28s cubic-bezier(.2,.8,.3,1);
+}
+
+/* ─── Form field focus animations ─── */
+.booking-form input,
+.booking-form select,
+.booking-form textarea,
+.contact-form input,
+.contact-form select,
+.contact-form textarea {
+  transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.2s ease;
+}
+.booking-form input:focus,
+.booking-form select:focus,
+.booking-form textarea:focus,
+.contact-form input:focus,
+.contact-form select:focus,
+.contact-form textarea:focus {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 20px rgba(97, 221, 217, 0.12);
+}
+
+/* ─── Button hover enhancements ─── */
+.btn-cta-rust, .btn-primary, .btn-send-rust, .booking-submit {
+  transition: transform 0.22s cubic-bezier(.2,.8,.3,1), box-shadow 0.22s ease, background 0.22s ease;
+}
+.btn-cta-rust:hover, .btn-send-rust:hover, .booking-submit:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 8px 28px rgba(192, 57, 43, 0.35);
+}
+.btn-primary:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 8px 28px rgba(97, 221, 217, 0.22);
+}
+.btn-outline {
+  transition: transform 0.22s ease, background 0.22s ease;
+}
+.btn-outline:hover {
+  transform: translateY(-2px);
+}
+
+/* ─── Eyebrow labels pulse on reveal ─── */
+.eyebrow {
+  position: relative;
+  display: inline-block;
+}
+.eyebrow::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -3px;
+  height: 1px;
+  width: 100%;
+  background: var(--accent, #61ddd9);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.4s ease 0.2s;
+}
+.in-view .eyebrow::after,
+.eyebrow.in-view::after {
+  transform: scaleX(1);
+}
+
+/* ─── Booking hero entrance ─── */
+.booking-hero .booking-intro {
+  animation: fadeUpItem 0.9s cubic-bezier(.16,1,.3,1) 200ms both;
+}
+
+/* ─── Book-form section ─── */
+.book-form-section .book-copy {
+  animation: fadeInLeft3 0.8s cubic-bezier(.16,1,.3,1) 150ms both;
+}
+.book-form-section .book-form-wrap {
+  animation: fadeInRight3 0.8s cubic-bezier(.16,1,.3,1) 280ms both;
+}
+
+/* ─── Service card inner hover ─── */
+.svc-card {
+  transition: transform 0.3s cubic-bezier(.2,.8,.3,1), box-shadow 0.3s ease;
+}
+.svc-card:hover {
+  transform: translateY(-8px) scale(1.015);
+  box-shadow: 0 16px 48px rgba(97, 221, 217, 0.12);
+}
+
+/* ─── Mobile reduced motion ─── */
+@media (max-width: 480px) {
+  .about.in-view .about-copy,
+  .about.in-view .about-image-wrap,
+  .contact-section.in-view .contact-copy,
+  .contact-section.in-view .contact-form-outer {
+    animation-name: fadeUpItem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .about-copy, .about-image-wrap, .about-list li,
+  .svc-card, .gallery-item, .process-card, .testi-card,
+  .trust-card, .contact-copy, .contact-form-outer,
+  .section-head .eyebrow, .section-head h2, .section-head .section-rule,
+  .booking-intro, .book-copy, .book-form-wrap {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}

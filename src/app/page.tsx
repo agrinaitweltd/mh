@@ -214,7 +214,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="services" className="services-grid-section section-shell">
+      <section id="services" className="services-grid-section section-shell scroll-reveal">
         <div className="container">
           <div className="services-grid-header">
             <p className="eyebrow">Services &amp; Pricing</p>
