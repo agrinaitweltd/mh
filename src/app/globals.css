@@ -2170,7 +2170,6 @@ button, input, textarea, select { font-family: inherit; }
   box-shadow: 0 18px 40px rgba(0, 0, 0, 0.45);
 }
 .svc-card--gold {
-  background: linear-gradient(145deg, #8d6b14 0%, #c09020 50%, #956f10 100%);
   border-color: rgba(212, 170, 50, 0.5);
 }
 .svc-card--gold:hover { border-color: rgba(255, 210, 70, 0.8); }
@@ -2562,11 +2561,13 @@ button, input, textarea, select { font-family: inherit; }
 ═══════════════════════════════════════════════════ */
 /* Override the second (newer) .site-footer definition */
 .site-footer {
-  background: linear-gradient(160deg, #09101e 0%, #0b1425 55%, #070d18 100%) !important;
+  background:
+    linear-gradient(160deg, rgba(9, 16, 30, 0.72) 0%, rgba(11, 20, 37, 0.7) 55%, rgba(7, 13, 24, 0.74) 100%),
+    url("/footer-bg.png") center/cover no-repeat !important;
   border-top: 1px solid rgba(192, 57, 43, 0.28) !important;
 }
 .footer-bg-overlay {
-  background: none !important;
+  background: rgba(6, 10, 20, 0.42) !important;
 }
 /* Footer top divider accent line */
 .site-footer::before {

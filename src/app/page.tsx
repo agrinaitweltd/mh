@@ -227,9 +227,11 @@ export default function Home() {
                 key={service.id}
                 className={`svc-card${service.tag ? " svc-card--gold" : ""}`}
                 style={{
-                  backgroundImage: `linear-gradient(160deg, rgba(7, 12, 24, 0.9), rgba(7, 12, 24, 0.78)), url(${service.bg})`,
+                  backgroundImage: `linear-gradient(160deg, rgba(7, 12, 24, 0.78), rgba(7, 12, 24, 0.56)), url(${service.bg})`,
                   backgroundSize: "cover",
                   backgroundPosition: "center",
+                  backgroundRepeat: "no-repeat",
+                  backgroundBlendMode: "multiply",
                 }}
               >
                 <p className="svc-card-cat">{service.category}</p>
