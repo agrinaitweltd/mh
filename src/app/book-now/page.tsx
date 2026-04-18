@@ -1,6 +1,6 @@
 ﻿"use client";
 
-import { FormEvent, useMemo, useState } from "react";
+import { FormEvent, useEffect, useMemo, useState } from "react";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import ScrollToTop from "@/components/ScrollToTop";
@@ -121,6 +121,15 @@ export default function BookNowPage() {
   const [submitted, setSubmitted] = useState(false);
   const todayKey = isoKey(new Date());
 
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => entries.forEach((e) => { if (e.isIntersecting) e.target.classList.add("in-view"); }),
+      { threshold: 0.1 }
+    );
+    document.querySelectorAll(".scroll-reveal").forEach((el) => observer.observe(el));
+    return () => observer.disconnect();
+  }, []);
+
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setSubmitted(true);
@@ -142,7 +151,7 @@ export default function BookNowPage() {
         </div>
       </section>
 
-      <section className="book-form-section section-shell">
+      <section className="book-form-section section-shell scroll-reveal">
         <div className="container book-form-grid">
           <div className="book-copy">
             <h2>REACH <em>OUT</em></h2>
@@ -309,7 +318,7 @@ export default function BookNowPage() {
         </div>
       </section>
 
-      <section className="booking-process section-shell">
+      <section className="booking-process section-shell scroll-reveal">
         <div className="container">
           <div className="section-head">
             <p className="eyebrow">Process</p>
@@ -327,7 +336,7 @@ export default function BookNowPage() {
         </div>
       </section>
 
-      <section className="booking-faq section-shell">
+      <section className="booking-faq section-shell scroll-reveal">
         <div className="container">
           <div className="section-head">
             <p className="eyebrow">FAQ</p>

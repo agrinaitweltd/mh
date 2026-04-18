@@ -180,7 +180,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="trust-strip">
+      <section className="trust-strip scroll-reveal">
         <div className="container trust-grid">
           <article className="trust-card reveal-up"><h3>170K+</h3><p>Audience Reach</p></article>
           <article className="trust-card reveal-up"><h3>10+</h3><p>Years Experience</p></article>

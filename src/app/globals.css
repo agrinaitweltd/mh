@@ -2155,7 +2155,10 @@ button, input, textarea, select { font-family: inherit; }
   gap: 1.2rem;
 }
 .svc-card {
-  background: #131619;
+  background-color: #131619;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 14px;
   padding: 1.4rem 1.3rem 1.2rem;
@@ -3141,13 +3144,23 @@ button, input, textarea, select { font-family: inherit; }
 
 @media (max-width: 600px) {
   .cookie-modal {
-    padding: 1.6rem 1.4rem 1.4rem;
+    padding: 1.4rem 1.2rem 1.2rem;
     border-radius: 12px;
+    width: calc(100% - 1.5rem);
+    max-width: 100%;
   }
-  .cookie-modal-title { font-size: 1.05rem; }
-  .cookie-modal-desc { font-size: 0.84rem; }
-  .cookie-modal-actions { flex-wrap: wrap; }
-  .cookie-modal-btn { flex: 1; min-width: 0; text-align: center; padding: 0.7rem 0.8rem; font-size: 0.78rem; }
+  .cookie-modal-title { font-size: 1rem; margin-bottom: 0.5rem; }
+  .cookie-modal-desc { font-size: 0.82rem; margin-bottom: 1.2rem; line-height: 1.5; }
+  .cookie-modal-actions {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .cookie-modal-btn {
+    width: 100%;
+    text-align: center;
+    padding: 0.75rem 1rem;
+    font-size: 0.8rem;
+  }
 }
 
 /* Hide old cookie bar styles in case of leftover markup */
