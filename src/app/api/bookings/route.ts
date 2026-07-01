@@ -191,9 +191,13 @@ export async function POST(request: Request) {
     );
   }
 
-  return NextResponse.json({
+  const response = {
     ok: true,
     customerEmailId: customerResult?.data?.id,
     adminEmailId: adminResult?.data?.id,
-  });
+  };
+
+  console.info("Resend booking email accepted", response);
+
+  return NextResponse.json(response);
 }

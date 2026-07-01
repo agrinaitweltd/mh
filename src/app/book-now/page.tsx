@@ -139,6 +139,7 @@ export default function BookNowPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitMessage, setSubmitMessage] = useState("");
   const [submitError, setSubmitError] = useState("");
+  const [emailRefs, setEmailRefs] = useState<{ customer?: string; admin?: string } | null>(null);
   const todayKey = isoKey(new Date());
 
   useEffect(() => {
@@ -156,6 +157,7 @@ export default function BookNowPage() {
     setSubmitted(false);
     setSubmitMessage("");
     setSubmitError("");
+    setEmailRefs(null);
 
     const form = event.currentTarget;
     const formData = new FormData(form);
@@ -176,6 +178,8 @@ export default function BookNowPage() {
 
       setSubmitted(true);
       setSubmitMessage("Email sent. Please check your inbox for confirmation.");
+      setEmailRefs({ customer: result.customerEmailId, admin: result.adminEmailId });
+      console.info("Booking emails accepted by Resend", result);
       form.reset();
       setSelectedDate(null);
       setTimeout(() => setSubmitted(false), 3000);
@@ -363,7 +367,14 @@ export default function BookNowPage() {
               {(submitMessage || submitError) && (
                 <p className={`booking-status ${submitError ? "error" : "success"}`} role="status">
                   {!submitError && <EmailSentIcon />}
-                  {submitError || submitMessage}
+                  <span className="booking-status-copy">
+                    <span>{submitError || submitMessage}</span>
+                    {!submitError && emailRefs && (
+                      <small>
+                        Ref: {emailRefs.customer || "customer pending"} / {emailRefs.admin || "admin pending"}
+                      </small>
+                    )}
+                  </span>
                 </p>
               )}
 

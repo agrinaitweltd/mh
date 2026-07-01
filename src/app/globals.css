@@ -1321,6 +1321,18 @@ button, input, textarea, select { font-family: inherit; }
   border: 1px solid rgba(192, 57, 43, 0.28);
   color: #8b1a1a;
 }
+.booking-status-copy {
+  display: grid;
+  gap: 0.12rem;
+}
+.booking-status-copy small {
+  color: rgba(22, 101, 52, 0.78);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: none;
+  word-break: break-word;
+}
 .email-sent-icon {
   flex: 0 0 auto;
   color: currentColor;
