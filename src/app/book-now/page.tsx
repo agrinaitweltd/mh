@@ -115,10 +115,30 @@ function isoKey(d: Date) {
   return `${d.getFullYear()}-${d.getMonth()}-${d.getDate()}`;
 }
 
+function EmailSentIcon() {
+  return (
+    <svg
+      className="email-sent-icon"
+      viewBox="0 0 24 24"
+      width="20"
+      height="20"
+      fill="none"
+      aria-hidden="true"
+    >
+      <path d="M4 6.5h16v11H4v-11Z" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round" />
+      <path d="m4.5 7 7.5 6 7.5-6" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="m15.5 17.5 1.8 1.8 3.7-4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
 export default function BookNowPage() {
   const calendarDays = useMemo(() => buildCalendar(), []);
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [submitted, setSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitMessage, setSubmitMessage] = useState("");
+  const [submitError, setSubmitError] = useState("");
   const todayKey = isoKey(new Date());
 
   useEffect(() => {
@@ -130,10 +150,40 @@ export default function BookNowPage() {
     return () => observer.disconnect();
   }, []);
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    setSubmitted(true);
-    setTimeout(() => setSubmitted(false), 2400);
+    setIsSubmitting(true);
+    setSubmitted(false);
+    setSubmitMessage("");
+    setSubmitError("");
+
+    const form = event.currentTarget;
+    const formData = new FormData(form);
+    const payload = Object.fromEntries(formData.entries());
+
+    try {
+      const response = await fetch("/api/bookings", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      const result = await response.json().catch(() => ({ error: "Booking could not be sent." }));
+
+      if (!response.ok) {
+        const detail = result.details?.customer || result.details?.admin;
+        throw new Error(detail ? `${result.error} ${detail}` : result.error || "Booking could not be sent.");
+      }
+
+      setSubmitted(true);
+      setSubmitMessage("Email sent. Please check your inbox for confirmation.");
+      form.reset();
+      setSelectedDate(null);
+      setTimeout(() => setSubmitted(false), 3000);
+    } catch (error) {
+      setSubmitError(error instanceof Error ? error.message : "Booking could not be sent.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -310,8 +360,20 @@ export default function BookNowPage() {
                 <textarea rows={3} name="notes" placeholder="Any special requests, stains, pet hair, or extra info..." />
               </label>
 
-              <button className={`btn-primary booking-submit ${submitted ? "success" : ""}`} type="submit">
-                {submitted ? "✓ Booking Confirmed!" : "Confirm Booking →"}
+              {(submitMessage || submitError) && (
+                <p className={`booking-status ${submitError ? "error" : "success"}`} role="status">
+                  {!submitError && <EmailSentIcon />}
+                  {submitError || submitMessage}
+                </p>
+              )}
+
+              <button className={`btn-primary booking-submit ${submitted ? "success" : ""}`} type="submit" disabled={isSubmitting}>
+                {isSubmitting ? "Sending..." : submitted ? (
+                  <>
+                    <EmailSentIcon />
+                    Email Sent
+                  </>
+                ) : "Confirm Booking ->"}
               </button>
             </form>
           </div>
@@ -357,4 +419,3 @@ export default function BookNowPage() {
     </main>
   );
 }
-

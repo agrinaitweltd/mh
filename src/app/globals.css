@@ -598,7 +598,7 @@ button, input, textarea, select { font-family: inherit; }
   display: flex;
   align-items: center;
   overflow: hidden;
-  background: url("/hero-bg.png") center/cover no-repeat;
+  background: url("/hero-bg.webp") center/cover no-repeat;
 }
 .hero::before {
   content: "";
@@ -1291,10 +1291,39 @@ button, input, textarea, select { font-family: inherit; }
   justify-self: end;
   min-width: 180px;
 }
+.booking-submit:disabled {
+  cursor: wait;
+  opacity: 0.76;
+}
 .booking-submit.success {
   animation: pulse 0.5s ease;
   background: linear-gradient(120deg, #22c55e, #16a34a);
   color: #fff;
+}
+.booking-status {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  margin: 0;
+  border-radius: 10px;
+  padding: 0.78rem 1rem;
+  font-size: 0.84rem;
+  font-weight: 700;
+  line-height: 1.45;
+}
+.booking-status.success {
+  background: rgba(34, 197, 94, 0.12);
+  border: 1px solid rgba(34, 197, 94, 0.28);
+  color: #166534;
+}
+.booking-status.error {
+  background: rgba(192, 57, 43, 0.1);
+  border: 1px solid rgba(192, 57, 43, 0.28);
+  color: #8b1a1a;
+}
+.email-sent-icon {
+  flex: 0 0 auto;
+  color: currentColor;
 }
 
 .booking-process {
@@ -2266,7 +2295,7 @@ button, input, textarea, select { font-family: inherit; }
   overflow: hidden;
   padding: 0;
   border-top: 1px solid rgba(180, 40, 40, 0.25);
-  background: url("/footer-bg.png") center/cover no-repeat, #0c1526;
+  background: url("/footer-bg.webp") center/cover no-repeat, #0c1526;
 }
 .footer-bg-overlay {
   position: absolute;
@@ -2722,6 +2751,7 @@ button, input, textarea, select { font-family: inherit; }
   padding: 0.9rem 2.2rem;
   font-size: 0.82rem;
   letter-spacing: 0.14em;
+  gap: 0.5rem;
   background: #c0392b !important;
   background: linear-gradient(120deg, #c0392b 0%, #8b1a1a 100%) !important;
   box-shadow: 0 6px 22px rgba(192, 57, 43, 0.36) !important;
@@ -2823,7 +2853,7 @@ button, input, textarea, select { font-family: inherit; }
 .booking-hero {
   position: relative;
   padding: 10.5rem 0 3rem !important;
-  background: url("/hero-bg.png") center/cover no-repeat !important;
+  background: url("/hero-bg.webp") center/cover no-repeat !important;
   overflow: hidden;
 }
 .booking-hero::before {
@@ -2985,7 +3015,7 @@ button, input, textarea, select { font-family: inherit; }
   object-fit: contain;
   filter: brightness(1.1);
   transform-origin: center;
-  animation: loadingLogoSpin 2.6s linear infinite;
+  animation: loadingLogoSpin 0.9s linear infinite;
 }
 .loading-bar-track {
   width: 160px;
@@ -2998,7 +3028,7 @@ button, input, textarea, select { font-family: inherit; }
   height: 100%;
   border-radius: 3px;
   background: linear-gradient(90deg, var(--accent), var(--accent-2));
-  animation: loadingBarFill 2.4s cubic-bezier(.4,0,.2,1) both;
+  animation: loadingBarFill 0.65s cubic-bezier(.4,0,.2,1) both;
 }
 .loading-tagline {
   font-family: var(--font-heading), sans-serif;

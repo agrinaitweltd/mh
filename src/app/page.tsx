@@ -14,7 +14,7 @@ const SERVICES = [
     price: "£60",
     tag: "Most Popular",
     size: "All Vehicles",
-    bg: "/service-full-detail.png",
+    bg: "/service-full-detail.webp",
     points: [
       "Full exterior wash & polish",
       "Interior deep clean",
@@ -31,7 +31,7 @@ const SERVICES = [
     label: "Mini Valet",
     price: "£40",
     size: "All Vehicles",
-    bg: "/service-mini-valet.png",
+    bg: "/service-mini-valet.webp",
     points: [
       "Exterior snow-foam wash",
       "Interior wipe-down & vacuum",
@@ -47,7 +47,7 @@ const SERVICES = [
     label: "Full Interior",
     price: "£25",
     size: "All Vehicles",
-    bg: "/service-full-interior.png",
+    bg: "/service-full-interior.webp",
     points: [
       "Seats deep-cleaned",
       "Carpets and mats refreshed",
@@ -63,7 +63,7 @@ const SERVICES = [
     label: "Full Exterior",
     price: "£25",
     size: "All Vehicles",
-    bg: "/service-full-exterior.png",
+    bg: "/service-full-exterior.webp",
     points: [
       "Snow-foam pre-wash",
       "Safe hand wash",
@@ -100,23 +100,23 @@ const TESTIMONIALS = [
 
 const GALLERY = [
   {
-    src: "/gallery-1.png",
+    src: "/gallery-1.webp",
     alt: "Car detailing result 1",
   },
   {
-    src: "/gallery-2.png",
+    src: "/gallery-2.webp",
     alt: "Car detailing result 2",
   },
   {
-    src: "/gallery-3.png",
+    src: "/gallery-3.webp",
     alt: "Car detailing result 3",
   },
   {
-    src: "/gallery-4.png",
+    src: "/gallery-4.webp",
     alt: "Car detailing result 4",
   },
   {
-    src: "/gallery-5.png",
+    src: "/gallery-5.webp",
     alt: "Car detailing result 5",
   },
 ];
@@ -206,9 +206,11 @@ export default function Home() {
           <div className="about-image-wrap">
             <div className="about-deco-shape" aria-hidden="true" />
             <img
-              src="/about.png"
+              src="/about.webp"
               alt="M.H Detailz at work"
               className="about-img"
+              loading="lazy"
+              decoding="async"
             />
           </div>
         </div>
@@ -301,7 +303,7 @@ export default function Home() {
           <div className="gallery-grid">
             {GALLERY.map((image, idx) => (
               <figure key={image.alt} className={`gallery-item g-${idx + 1}`}>
-                <img src={image.src} alt={image.alt} loading="lazy" />
+                <img src={image.src} alt={image.alt} loading="lazy" decoding="async" />
                 <figcaption>{image.alt}</figcaption>
               </figure>
             ))}
@@ -378,4 +380,3 @@ export default function Home() {
     </main>
   );
 }
-

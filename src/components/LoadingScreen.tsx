@@ -7,11 +7,11 @@ export default function LoadingScreen() {
   const [fadeOut, setFadeOut] = useState(false);
 
   useEffect(() => {
-    const hasVisited = sessionStorage.getItem("mh-visited");
-    const duration = hasVisited ? 2000 : 3000;
+    const hasVisited = sessionStorage.getItem("mh-visited") === "1";
+    const duration = hasVisited ? 450 : 700;
     sessionStorage.setItem("mh-visited", "1");
 
-    const fadeTimer = setTimeout(() => setFadeOut(true), duration - 600);
+    const fadeTimer = setTimeout(() => setFadeOut(true), Math.max(duration - 260, 0));
     const hideTimer = setTimeout(() => setVisible(false), duration);
 
     return () => {
