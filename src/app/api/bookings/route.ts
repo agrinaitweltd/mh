@@ -102,9 +102,28 @@ function emailShell(title: string, intro: string, rows: string) {
 function resendErrorMessage(error: unknown) {
   if (!error) return "";
   if (error instanceof Error) return error.message;
-  if (typeof error === "object" && "message" in error && typeof error.message === "string") {
-    return error.message;
+
+  if (typeof error === "object" && error !== null) {
+    if ("message" in error && typeof error.message === "string") {
+      return error.message;
+    }
+
+    if (
+      "error" in error &&
+      typeof error.error === "object" &&
+      error.error !== null &&
+      "message" in error.error &&
+      typeof error.error.message === "string"
+    ) {
+      return error.error.message;
+    }
+
+    if ("name" in error && "statusCode" in error && typeof error.name === "string") {
+      const message = "message" in error && typeof error.message === "string" ? error.message : "Unknown error";
+      return `${error.name}: ${message}`;
+    }
   }
+
   return "Unknown Resend error";
 }
 
