@@ -128,9 +128,14 @@ function resendErrorMessage(error: unknown) {
 }
 
 export async function POST(request: Request) {
+  console.log("[BOOKING] POST received");
+  console.log("[BOOKING] RESEND_API_KEY present:", !!process.env.RESEND_API_KEY);
+  console.log("[BOOKING] BOOKING_ADMIN_EMAIL:", process.env.BOOKING_ADMIN_EMAIL);
+  
   if (!process.env.RESEND_API_KEY) {
+    console.error("[BOOKING] ERROR: RESEND_API_KEY not configured");
     return NextResponse.json(
-      { error: "Email service is not configured. Add RESEND_API_KEY in Vercel." },
+      { error: "Email service is not configured. Add RESEND_API_KEY in Vercel environment variables." },
       { status: 500 }
     );
   }
@@ -197,9 +202,11 @@ export async function POST(request: Request) {
   if (customerError || adminError) {
     const customerMessage = resendErrorMessage(customerError);
     const adminMessage = resendErrorMessage(adminError);
-    console.error("Resend booking email failed", {
+    console.error("[BOOKING] Resend email failed", {
       customerError: customerMessage,
       adminError: adminMessage,
+      customerResult,
+      adminResult,
     });
     return NextResponse.json(
       {
@@ -216,7 +223,7 @@ export async function POST(request: Request) {
     adminEmailId: adminResult?.data?.id,
   };
 
-  console.info("Resend booking email accepted", response);
+  console.info("[BOOKING] Emails sent successfully", response);
 
   return NextResponse.json(response);
 }

@@ -111,9 +111,14 @@ function resendErrorMessage(error: unknown) {
 }
 
 export async function POST(request: Request) {
+  console.log("[CONTACT] POST received");
+  console.log("[CONTACT] RESEND_API_KEY present:", !!process.env.RESEND_API_KEY);
+  console.log("[CONTACT] BOOKING_ADMIN_EMAIL:", process.env.BOOKING_ADMIN_EMAIL);
+  
   if (!process.env.RESEND_API_KEY) {
+    console.error("[CONTACT] ERROR: RESEND_API_KEY not configured");
     return NextResponse.json(
-      { error: "Email service is not configured. Add RESEND_API_KEY in Vercel." },
+      { error: "Email service is not configured. Add RESEND_API_KEY in Vercel environment variables." },
       { status: 500 }
     );
   }
@@ -154,12 +159,13 @@ export async function POST(request: Request) {
 
   if (result.error) {
     const message = resendErrorMessage(result.error);
-    console.error("Resend contact email failed", { error: message });
+    console.error("[CONTACT] Resend email failed", { error: message, result });
     return NextResponse.json(
       { error: "Contact message could not be sent.", details: message },
       { status: 502 }
     );
   }
 
+  console.info("[CONTACT] Email sent successfully", result);
   return NextResponse.json({ ok: true });
 }
