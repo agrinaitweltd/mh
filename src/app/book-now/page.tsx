@@ -180,7 +180,9 @@ export default function BookNowPage() {
       setSubmitMessage("Email sent. Please check your inbox for confirmation.");
       setEmailRefs({ customer: result.customerEmailId, admin: result.adminEmailId });
       console.info("Booking emails accepted by Resend", result);
-      form.reset();
+      if (form) {
+        form.reset();
+      }
       setSelectedDate(null);
       setTimeout(() => setSubmitted(false), 3000);
     } catch (error) {

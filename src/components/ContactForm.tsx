@@ -44,7 +44,9 @@ export default function ContactForm() {
       }
 
       setSubmitMessage("Your message was sent successfully. We'll reply as soon as possible.");
-      event.currentTarget.reset();
+      if (event.currentTarget) {
+        event.currentTarget.reset();
+      }
     } catch (error) {
       setSubmitError(error instanceof Error ? error.message : "Message could not be sent.");
     } finally {
