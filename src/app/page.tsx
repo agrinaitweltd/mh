@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import ScrollToTop from "@/components/ScrollToTop";
+import ContactForm from "@/components/ContactForm";
 
 const SERVICES = [
   {
@@ -345,33 +346,7 @@ export default function Home() {
           <div className="contact-form-outer">
             <div className="contact-deco-l" aria-hidden="true" />
             <div className="contact-deco-r" aria-hidden="true" />
-            <form className="contact-form">
-              <label>Full Name<input type="text" name="name" required /></label>
-              <div className="form-row">
-                <label>Email<input type="email" name="email" required /></label>
-                <label>Phone<input type="tel" name="phone" /></label>
-              </div>
-              <div className="form-row">
-                <label>Subject<input type="text" name="subject" required /></label>
-                <label>Inquiry Type
-                  <select name="inquiry_type" defaultValue="General Question">
-                    {["General Question", "Partnership", "Feedback", "Support", "Other"].map((type) => (
-                      <option key={type} value={type}>{type}</option>
-                    ))}
-                  </select>
-                </label>
-              </div>
-              <label>Preferred Reply Method
-                <select name="reply_method" defaultValue="Email">
-                  <option value="Email">Email</option>
-                  <option value="Phone">Phone</option>
-                  <option value="Either">Either</option>
-                </select>
-              </label>
-              <label>Reference File (Optional)<input type="file" name="attachment" accept="image/*,.pdf,.doc,.docx" className="form-file" /></label>
-              <label>Message<textarea name="message" rows={5} placeholder="Tell us how we can help..." required /></label>
-              <button type="submit" className="btn-send-rust form-submit">SEND →</button>
-            </form>
+            <ContactForm />
           </div>
         </div>
       </section>
