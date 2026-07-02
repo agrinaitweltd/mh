@@ -1,6 +1,6 @@
 ﻿"use client";
 
-import { FormEvent, useEffect, useMemo, useState } from "react";
+import { FormEvent, useEffect, useMemo, useState, useRef } from "react";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import ScrollToTop from "@/components/ScrollToTop";
@@ -133,6 +133,7 @@ function EmailSentIcon() {
 }
 
 export default function BookNowPage() {
+  const bookingFormRef = useRef<HTMLFormElement>(null);
   const calendarDays = useMemo(() => buildCalendar(), []);
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [submitted, setSubmitted] = useState(false);
@@ -159,8 +160,7 @@ export default function BookNowPage() {
     setSubmitError("");
     setEmailRefs(null);
 
-    const form = event.currentTarget;
-    const formData = new FormData(form);
+    const formData = new FormData(event.currentTarget);
     const payload = Object.fromEntries(formData.entries());
 
     try {
@@ -180,8 +180,8 @@ export default function BookNowPage() {
       setSubmitMessage("Email sent. Please check your inbox for confirmation.");
       setEmailRefs({ customer: result.customerEmailId, admin: result.adminEmailId });
       console.info("Booking emails accepted by Resend", result);
-      if (form) {
-        form.reset();
+      if (bookingFormRef.current) {
+        bookingFormRef.current.reset();
       }
       setSelectedDate(null);
       setTimeout(() => setSubmitted(false), 3000);
@@ -270,7 +270,7 @@ export default function BookNowPage() {
 
           <div className="book-form-wrap">
             <div className="book-deco" aria-hidden="true" />
-            <form className="booking-form image-style" onSubmit={handleSubmit}>
+            <form ref={bookingFormRef} className="booking-form image-style" onSubmit={handleSubmit}>
               <label>
                 Full Name
                 <input type="text" name="name" required placeholder="e.g. John Smith" />

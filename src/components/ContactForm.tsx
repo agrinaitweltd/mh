@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, useState } from "react";
+import { FormEvent, useState, useRef } from "react";
 
 const INQUIRY_TYPES = [
   "General Question",
@@ -13,6 +13,7 @@ const INQUIRY_TYPES = [
 const REPLY_METHODS = ["Email", "Phone", "Either"];
 
 export default function ContactForm() {
+  const formRef = useRef<HTMLFormElement>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitMessage, setSubmitMessage] = useState("");
   const [submitError, setSubmitError] = useState("");
@@ -44,8 +45,8 @@ export default function ContactForm() {
       }
 
       setSubmitMessage("Your message was sent successfully. We'll reply as soon as possible.");
-      if (event.currentTarget) {
-        event.currentTarget.reset();
+      if (formRef.current) {
+        formRef.current.reset();
       }
     } catch (error) {
       setSubmitError(error instanceof Error ? error.message : "Message could not be sent.");
@@ -55,7 +56,7 @@ export default function ContactForm() {
   };
 
   return (
-    <form className="contact-form" onSubmit={handleSubmit}>
+    <form ref={formRef} className="contact-form" onSubmit={handleSubmit}>
       <label>
         Full Name
         <input type="text" name="name" required />
