@@ -12,8 +12,7 @@ type CalendarDay = {
   isWeekend: boolean;
 };
 
-const MONTH = 3;
-const YEAR = 2026;
+const UK_TIME_ZONE = "Europe/London";
 const SERVICE_OPTIONS = [
   "Mini Valet - £40",
   "Full Detail - £60",
@@ -70,49 +69,85 @@ const FAQS = [
   },
 ];
 
-function buildCalendar(): CalendarDay[] {
-  const firstDay = new Date(YEAR, MONTH, 1);
-  const startDow = firstDay.getDay();
-  const daysInMonth = new Date(YEAR, MONTH + 1, 0).getDate();
-  const prevMonthDays = new Date(YEAR, MONTH, 0).getDate();
+type DateParts = {
+  year: number;
+  month: number;
+  day: number;
+};
+
+function makeCalendarDate(year: number, month: number, day: number) {
+  return new Date(Date.UTC(year, month, day, 12));
+}
+
+function getUkDateParts(date = new Date()): DateParts {
+  const parts = new Intl.DateTimeFormat("en-GB", {
+    timeZone: UK_TIME_ZONE,
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  }).formatToParts(date);
+
+  return {
+    year: Number(parts.find((p) => p.type === "year")?.value),
+    month: Number(parts.find((p) => p.type === "month")?.value) - 1,
+    day: Number(parts.find((p) => p.type === "day")?.value),
+  };
+}
+
+function ukDateKey(parts: DateParts) {
+  return `${parts.year}-${parts.month}-${parts.day}`;
+}
+
+function dateKey(date: Date) {
+  return `${date.getUTCFullYear()}-${date.getUTCMonth()}-${date.getUTCDate()}`;
+}
+
+function formatUkDate(date: Date, options: Intl.DateTimeFormatOptions) {
+  return new Intl.DateTimeFormat("en-GB", {
+    timeZone: UK_TIME_ZONE,
+    ...options,
+  }).format(date);
+}
+
+function buildCalendar(year: number, month: number): CalendarDay[] {
+  const firstDay = makeCalendarDate(year, month, 1);
+  const startDow = firstDay.getUTCDay();
+  const daysInMonth = makeCalendarDate(year, month + 1, 0).getUTCDate();
+  const prevMonthDays = makeCalendarDate(year, month, 0).getUTCDate();
   const days: CalendarDay[] = [];
 
   for (let i = startDow - 1; i >= 0; i--) {
-    const d = new Date(YEAR, MONTH - 1, prevMonthDays - i);
+    const d = makeCalendarDate(year, month - 1, prevMonthDays - i);
     days.push({
       date: d,
       dayNumber: prevMonthDays - i,
       isCurrentMonth: false,
-      isWeekend: d.getDay() === 0 || d.getDay() === 6,
+      isWeekend: d.getUTCDay() === 0 || d.getUTCDay() === 6,
     });
   }
 
   for (let n = 1; n <= daysInMonth; n++) {
-    const d = new Date(YEAR, MONTH, n);
+    const d = makeCalendarDate(year, month, n);
     days.push({
       date: d,
       dayNumber: n,
       isCurrentMonth: true,
-      isWeekend: d.getDay() === 0 || d.getDay() === 6,
+      isWeekend: d.getUTCDay() === 0 || d.getUTCDay() === 6,
     });
   }
 
   let extra = 1;
   while (days.length < 42) {
-    const d = new Date(YEAR, MONTH + 1, extra++);
+    const d = makeCalendarDate(year, month + 1, extra++);
     days.push({
       date: d,
-      dayNumber: d.getDate(),
+      dayNumber: d.getUTCDate(),
       isCurrentMonth: false,
-      isWeekend: d.getDay() === 0 || d.getDay() === 6,
+      isWeekend: d.getUTCDay() === 0 || d.getUTCDay() === 6,
     });
   }
 
   return days;
-}
-
-function isoKey(d: Date) {
-  return `${d.getFullYear()}-${d.getMonth()}-${d.getDate()}`;
 }
 
 function EmailSentIcon() {
@@ -134,14 +169,30 @@ function EmailSentIcon() {
 
 export default function BookNowPage() {
   const bookingFormRef = useRef<HTMLFormElement>(null);
-  const calendarDays = useMemo(() => buildCalendar(), []);
+  const [ukToday, setUkToday] = useState<DateParts>(() => getUkDateParts());
+  const calendarDays = useMemo(() => buildCalendar(ukToday.year, ukToday.month), [ukToday.year, ukToday.month]);
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [submitted, setSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitMessage, setSubmitMessage] = useState("");
   const [submitError, setSubmitError] = useState("");
   const [emailRefs, setEmailRefs] = useState<{ customer?: string; admin?: string } | null>(null);
-  const todayKey = isoKey(new Date());
+  const todayKey = ukDateKey(ukToday);
+  const calendarTitle = formatUkDate(makeCalendarDate(ukToday.year, ukToday.month, 1), {
+    month: "long",
+    year: "numeric",
+  });
+
+  useEffect(() => {
+    const interval = window.setInterval(() => {
+      setUkToday((current) => {
+        const next = getUkDateParts();
+        return ukDateKey(next) === ukDateKey(current) ? current : next;
+      });
+    }, 60 * 1000);
+
+    return () => window.clearInterval(interval);
+  }, []);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -225,8 +276,8 @@ export default function BookNowPage() {
 
             <div className="calendar-card">
               <div className="calendar-head">
-                <h3>April 2026</h3>
-                <p>Only weekends are available</p>
+                <h3>{calendarTitle}</h3>
+                <p>Only weekends are available. Today follows UK time.</p>
               </div>
               <div className="calendar-weekdays">
                 {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((d) => (
@@ -235,9 +286,9 @@ export default function BookNowPage() {
               </div>
               <div className="calendar-grid">
                 {calendarDays.map((day) => {
-                  const key = isoKey(day.date);
+                  const key = dateKey(day.date);
                   const isToday = key === todayKey;
-                  const isSelected = selectedDate ? key === isoKey(selectedDate) : false;
+                  const isSelected = selectedDate ? key === dateKey(selectedDate) : false;
                   const isSelectable = day.isCurrentMonth && day.isWeekend;
 
                   return (
@@ -253,7 +304,7 @@ export default function BookNowPage() {
                       ].join(" ").trim()}
                       onClick={() => isSelectable && setSelectedDate(day.date)}
                       disabled={!isSelectable}
-                      aria-label={day.date.toDateString()}
+                      aria-label={formatUkDate(day.date, { weekday: "long", day: "numeric", month: "long", year: "numeric" })}
                     >
                       {day.dayNumber}
                     </button>
@@ -262,7 +313,7 @@ export default function BookNowPage() {
               </div>
               {selectedDate && (
                 <p className="cal-selected-label">
-                  Selected: <strong>{selectedDate.toLocaleDateString("en-GB", { weekday: "long", day: "numeric", month: "long" })}</strong>
+                  Selected: <strong>{formatUkDate(selectedDate, { weekday: "long", day: "numeric", month: "long" })}</strong>
                 </p>
               )}
             </div>
@@ -356,7 +407,7 @@ export default function BookNowPage() {
                   type="text"
                   name="preferred_date"
                   readOnly
-                  value={selectedDate ? selectedDate.toLocaleDateString("en-GB", { weekday: "long", day: "numeric", month: "long", year: "numeric" }) : ""}
+                  value={selectedDate ? formatUkDate(selectedDate, { weekday: "long", day: "numeric", month: "long", year: "numeric" }) : ""}
                   placeholder="Select a weekend date above"
                 />
               </label>

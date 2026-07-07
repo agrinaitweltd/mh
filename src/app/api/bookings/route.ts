@@ -172,6 +172,8 @@ export async function POST(request: Request) {
   const rows = renderRows(payload);
   const summary = textSummary(payload);
 
+  console.log("[BOOKING] Sending emails to:", { customer: payload.email, admin: ADMIN_EMAIL });
+
   const [customerSend, adminSend] = await Promise.allSettled([
     resend.emails.send({
       from: FROM_EMAIL,
@@ -198,6 +200,25 @@ export async function POST(request: Request) {
   const adminResult = adminSend.status === "fulfilled" ? adminSend.value : null;
   const customerError = customerSend.status === "rejected" ? customerSend.reason : customerResult?.error;
   const adminError = adminSend.status === "rejected" ? adminSend.reason : adminResult?.error;
+
+  console.log("[BOOKING] Email send results:", {
+    customerStatus: customerSend.status,
+    adminStatus: adminSend.status,
+    customerHasError: !!customerError,
+    adminHasError: !!adminError,
+  });
+
+  if (customerError) {
+    console.error("[BOOKING] CUSTOMER email failed:", resendErrorMessage(customerError), customerResult);
+  } else {
+    console.info("[BOOKING] CUSTOMER email sent:", customerResult?.data?.id);
+  }
+
+  if (adminError) {
+    console.error("[BOOKING] ADMIN email failed:", resendErrorMessage(adminError), adminResult);
+  } else {
+    console.info("[BOOKING] ADMIN email sent:", adminResult?.data?.id);
+  }
 
   if (customerError || adminError) {
     const customerMessage = resendErrorMessage(customerError);
